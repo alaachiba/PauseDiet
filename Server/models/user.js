@@ -14,10 +14,19 @@ const userSchema = new schema({
   password: {
     type: String,
   },
+  image: {
+    type: String
+  },
   role: {
     type: String,
     enum: ["patient", "nutritionniste", "secretaire"],
   },
+  rdv: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rdv",
+    },
+  ],
 });
 
 module.exports = User = mongoose.model("users", userSchema);

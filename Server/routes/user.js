@@ -4,10 +4,11 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const isAuth = require("../middleware/isAuth");
+const roleControle = require("../middleware/roleControle");
 
 //register new user
 router.post("/register", async (req, res) => {
-  const { name, email, lastName, password, role } = req.body;
+  const { name, email, lastName, password, role, image } = req.body;
   let user = await User.findOne({ email });
   if (user) {
     return res.send({ msg: "user already exists !" });
@@ -17,6 +18,7 @@ router.post("/register", async (req, res) => {
     email,
     password,
     lastName,
+    image,
     role,
   });
   const salt = 10;
@@ -34,6 +36,7 @@ router.post("/register", async (req, res) => {
 
 //login
 router.post("/login", async (req, res) => {
+  console.log(req.body)
   const { email, password } = req.body;
   try {
     let user = await User.findOne({ email });
@@ -48,6 +51,7 @@ router.post("/login", async (req, res) => {
       id: user._id,
     };
     var token = jwt.sign(payload, "jhghsd", { expiresIn: "1h" });
+    console.log(token)
     res.send({ msg: "user logged with success !", user, token });
   } catch (error) {
     res.send({ msg: "Server error" });
@@ -60,7 +64,7 @@ router.get("/user", isAuth, (req, res) => {
 });
 
 //update user
-router.put("/edit/:id", async (req, res) => {
+router.put("/edit/:id", isAuth, roleControle, async (req, res) => {
   const { id } = req.params;
   const user = await User.findOneAndUpdate(
     { _id: id },
@@ -71,27 +75,26 @@ router.put("/edit/:id", async (req, res) => {
 });
 
 //get all users
-router.get("/getallusers", async (req, res) => {
-  try{
-  const users = await User.find();
-  res.json({msg: "Users list", users});
+router.get("/getallusers", isAuth, roleControle, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json({ msg: "Users list", users });
+  } catch (err) {
+    console.log(err);
   }
-  catch(err){
-    console.log(err)
-  }
-})
+});
 
 //get all patient
-router.get("/getpatients", async (req, res) => {
+router.get("/getpatients", isAuth, roleControle, async (req, res) => {
   const users = await User.find({ role: "patient" });
-  res.json({msg: "Patients list", users});
-})
+  res.json({ msg: "Patients list", users });
+});
 
 //ddelete user
-router.delete('/:id',async(req,res)=>{
-  const {id}=req.params
-  const user=await User.findOneAndDelete({_id:id})
-  res.send({msg:"contact deleted",user})
-  })
+router.delete("/:id", isAuth, roleControle, async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOneAndDelete({ _id: id });
+  res.send({ msg: "contact deleted", user });
+});
 
 module.exports = router;
