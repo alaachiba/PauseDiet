@@ -4,12 +4,14 @@ import {
   GET_AUTH_USER,
   LOGOUT_USER,
   GET_PATIENTS,
+  GET_RDVS,
 } from "./actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
   user: null,
   msg: null,
+  rdvss: [], 
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -47,6 +49,12 @@ const authReducer = (state = initialState, { type, payload }) => {
             patients:payload.users,
             msg: payload.msg,
         };
+        case GET_RDVS:
+          return {
+            ...state,
+            rdvss: payload.rdvs,
+            msg: payload.msg,
+          };
     default:
       return state;
   }

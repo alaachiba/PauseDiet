@@ -4,6 +4,7 @@ import {
   REGISTER_USER,
   LOGOUT_USER,
   GET_PATIENTS,
+  GET_RDVS,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -134,3 +135,15 @@ export const deleteuser=(id)=> async (dispatch)=>{
       console.log(error);
     }
 }
+
+export const getRdvs=()=> async (dispatch)=>{
+  try {
+    const res = await axios.get("/rdv/getrdvs");
+    dispatch({
+      type: GET_RDVS,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

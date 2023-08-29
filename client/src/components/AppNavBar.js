@@ -16,26 +16,12 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import LoginModal from "./auth/loginModal";
-import RegisterModal from "./auth/RegisterModal";
 import { logout , loginUser} from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 
 
 //dialog imports
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import TextField from '@mui/material/TextField';
@@ -59,9 +45,10 @@ const AppNavbar = ()=> {
 
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  
   const logoutt = () => {
     dispatch(logout());
-    navigate("/");
+    navigate("/login");
   };
 
   const handleOpenNavMenu = (event) => {

@@ -12,7 +12,9 @@ import {
 } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { editPatient } from "../../redux/actions";
-
+import {
+  useParams
+  } from "react-router-dom";
 
 
 const EditModal = ({el}) => {
@@ -25,7 +27,7 @@ const EditModal = ({el}) => {
     setModal(!modal);
   };
   const dispatch = useDispatch();
-
+  let { id } = useParams();
   const editt=()=>{
     dispatch(editPatient(el._id,{name, lastName, email, role}))
     setModal(!modal)

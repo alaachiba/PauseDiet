@@ -1,1 +1,1 @@
-export const GET_RDVS   ="GET_RDVS"
+export const ADD_RDV = "ADD_RDV";

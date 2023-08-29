@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -22,18 +23,17 @@ import Typography from "@mui/material/Typography";
 import moment from "moment";
 import { momentLocalizer } from "react-big-calendar";
 import AddRdv from "../../components/Rdv/AddRdv";
+import { getRdvs } from "../../redux/actions"
 
 moment.locale("fr");
 moment.updateLocale("fr", {
-	week: {
-		dow: 1,
-		doy: 4,
-	},
+  week: {
+    dow: 1,
+    doy: 4,
+  },
 });
 
-
 const locales = momentLocalizer(moment);
-
 
 const localizer = dateFnsLocalizer({
   format,
@@ -42,17 +42,7 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-const EvenetsList = [
-  {
-    _Id: "1111111",
 
-    title: "Chiba",
-
-    start: new Date(),
-
-    end: new Date(),
-  },
-];
 //******************************* */
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -91,6 +81,24 @@ BootstrapDialogTitle.propTypes = {
 };
 /************************************************ */
 const HomeDashboard = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRdvs());
+  }, [dispatch]);
+
+  const Rdvs = useSelector((state) => state.rdvss);
+
+  console.log(Rdvs, 'yyyyy');
+
+  const EvenetsList = Rdvs.map((rdv) => ({
+    _id: rdv._id,
+    title: rdv.typeRdv, // You should use the actual properties from your Rdv object
+    start: rdv.dateRdv, // Use the appropriate date property
+    end: rdv.dateEnd, // Use the appropriate date property
+  }));
+
   const [selectedEvent, setSelectedEvent] = useState(undefined);
   const [modalState, setModalState] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -158,7 +166,7 @@ const HomeDashboard = () => {
             </BootstrapDialog>
           </Grid>
           <Grid item xs={4}>
-          <AddRdv />
+            <AddRdv />
           </Grid>
         </Grid>
       </Box>

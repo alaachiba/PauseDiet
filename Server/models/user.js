@@ -11,6 +11,9 @@ const userSchema = new schema({
   email: {
     type: String,
   },
+  phone: {
+    type: Number,
+  },
   password: {
     type: String,
   },

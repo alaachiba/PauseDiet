@@ -4,3 +4,4 @@ export const GET_AUTH_USER = "GET_AUTH_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const USER_LOADING = "USER_LOADING";
 export const GET_PATIENTS   ="GET_PATIENTS"
+export const GET_RDVS ="GET_RDVS"
