@@ -17,6 +17,7 @@ const EditModal = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    console.log(user)
     setUserData(user);
   }, [user]);
 

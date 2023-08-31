@@ -142,7 +142,7 @@ export const deleteuser=(id)=> async (dispatch)=>{
 
 export const fetchUser = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(`/api/users/${userId}`);
+    const response = await axios.get(`/userAuth/users/${userId}`);
     dispatch({ type: FETCH_USER_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_USER_FAILURE, payload: error });

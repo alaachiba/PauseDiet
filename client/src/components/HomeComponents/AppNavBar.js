@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 
 import { useSelector, useDispatch } from "react-redux";
-import { logout , loginUser} from "../redux/actions";
+import { logout , loginUser} from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,7 +25,7 @@ import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import TextField from '@mui/material/TextField';
-import ImageLogin from '../Login1.jpg';
+import ImageLogin from '../../Login1.jpg';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
