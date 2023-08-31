@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import { deleteuser } from "../../redux/actions";
 import {  useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import EditModal from "./EditModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,6 +50,9 @@ const PatientList = () => {
   const patients = useSelector((state) => state.patients);
   console.log(patients, "rrrrrrrrrrrrrrr");
 
+  const [selectedUser, setSelectedUser] = useState(null);
+
+
   if (!patients) {
     return <div>Loading...</div>;
   }
@@ -79,8 +83,8 @@ const PatientList = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {filteredPatients.map((row) => (
-          <StyledTableRow key={row.name}>
+      {filteredPatients.map((row) => (
+  <StyledTableRow key={row._id}>
             <StyledTableCell component="th" scope="row">
               {row.name}
             </StyledTableCell>
@@ -94,16 +98,24 @@ const PatientList = () => {
               />
             </StyledTableCell>
             <StyledTableCell align="right">
+            <StyledTableCell align="right">
             <Button
-              Variant = "contained"
-              startIcon = {<UpgradeIcon/>}
-              onClick={() => { navigate(`/Nutritionniste-dash/EditPatient/${row._id}`)}}
-              /></StyledTableCell>
+        variant="contained"
+        startIcon={<UpgradeIcon />}
+        onClick={() => {
+          navigate(`/Nutritionniste-dash/EditPatient/${row._id}`);
+        }}
+      />
+</StyledTableCell>
+</StyledTableCell>
           </StyledTableRow>
         ))}
       </TableBody>
     </Table>
   </TableContainer>
+  {selectedUser && (
+        <EditModal user={selectedUser} />
+      )}
   </div>
   );
 };

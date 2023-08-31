@@ -8,11 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ImageLogin from '../../Login1.jpg';
-import {
-  
-  Form,
-  FormGroup,
-} from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -22,6 +17,7 @@ const RegisterModal = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [role, setRole] = useState("nutritionniste");
   const [uploading, setUploading] = useState(false);
   const [image, setImage] = useState("")
@@ -35,7 +31,7 @@ const RegisterModal = () => {
   const dispatch = useDispatch();
 
   const registerr = () => {
-    const newUser = { name, lastName, email, password, role,image };
+    const newUser = { name, lastName, email, password, phone, role,image };
     dispatch(registerUser(newUser,navigate));
     toggle();
     
@@ -100,6 +96,17 @@ const RegisterModal = () => {
                         variant="standard"
                         onChange={(e) => setPassword(e.target.value)}
                       />
+                      <TextField
+                          
+                          label="Phone"
+                          name="Phone"
+                          type="Phone"
+                          variant="standard"
+                          definitions={{
+                            '#': /[1-9]/,
+                          }}
+                          onChange={(e) => setPhone(e.target.value)}
+                        />
               <InputLabel id="demo-simple-select-helper-label">Rôle</InputLabel>
               <Select
                 labelId="demo-simple-select-helper-label"

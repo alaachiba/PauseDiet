@@ -39,7 +39,7 @@ function App() {
           <Route path="/Nutritionniste-dash/add-video" element={<AddVideoForm/>} />
           <Route path="/Nutritionniste-dash/video-list" element={<VideoList/>} />
           <Route path="/Nutritionniste-dash/Calendrier" element={<HomeDashboard/>}/> 
-          <Route path="/Nutritionniste-dash/EditPatient" element={<EditModal />}/>
+          <Route path="/Nutritionniste-dash/EditPatient/:id" element={<EditModal />} />
         </Route>
         <Route path="/patient-dash" element={<Patient />} />
         <Route path="/secretaire-dash" element={<Secretaire />} />

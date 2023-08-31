@@ -8,7 +8,7 @@ const roleControle = require("../middleware/roleControle");
 
 //register new user
 router.post("/register", async (req, res) => {
-  const { name, email, lastName, password, role, image } = req.body;
+  const { name, email, lastName, password, phone, role, image } = req.body;
   let user = await User.findOne({ email });
   if (user) {
     return res.send({ msg: "user already exists !" });
@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
     lastName,
     image,
     role,
+    phone,
   });
   const salt = 10;
   let hashedPassword = await bcrypt.hash(password, salt);
@@ -74,6 +75,27 @@ router.put("/edit/:id", isAuth, roleControle, async (req, res) => {
   res.send({ msg: "User edited", user });
 });
 
+// Backend Express route to update a user by ID
+router.put('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedUserData = req.body; // Assuming the data is sent in the request body
+
+    // Find the user by ID and update their data
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
 //get all users
 router.get("/getallusers", isAuth, roleControle, async (req, res) => {
   try {
@@ -95,6 +117,23 @@ router.delete("/:id", isAuth, roleControle, async (req, res) => {
   const { id } = req.params;
   const user = await User.findOneAndDelete({ _id: id });
   res.send({ msg: "contact deleted", user });
+});
+
+
+router.get('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 module.exports = router;

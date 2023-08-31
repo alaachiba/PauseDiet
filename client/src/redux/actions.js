@@ -5,6 +5,10 @@ import {
   LOGOUT_USER,
   GET_PATIENTS,
   GET_RDVS,
+  FETCH_USER_FAILURE,
+  FETCH_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_SUCCESS
 } from "./actionTypes";
 import axios from "axios";
 
@@ -135,6 +139,25 @@ export const deleteuser=(id)=> async (dispatch)=>{
       console.log(error);
     }
 }
+
+export const fetchUser = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/users/${userId}`);
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: FETCH_USER_FAILURE, payload: error });
+  }
+};
+
+// Action to update a user by ID
+export const updateUser = (userId, userData) => async (dispatch) => {
+  try {
+    const response = await axios.put(`/api/users/${userId}`, userData);
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: UPDATE_USER_FAILURE, payload: error });
+  }
+};
 
 export const getRdvs=()=> async (dispatch)=>{
   try {

@@ -5,13 +5,18 @@ import {
   LOGOUT_USER,
   GET_PATIENTS,
   GET_RDVS,
+  FETCH_USER_FAILURE,
+  FETCH_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_SUCCESS
 } from "./actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
   user: null,
   msg: null,
-  rdvss: [], 
+  rdvss: [],
+  error: null,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -43,18 +48,26 @@ const authReducer = (state = initialState, { type, payload }) => {
         token: null,
         user: null,
       };
-      case GET_PATIENTS:
-        return{
-            ...state,
-            patients:payload.users,
-            msg: payload.msg,
-        };
-        case GET_RDVS:
-          return {
-            ...state,
-            rdvss: payload.rdvs,
-            msg: payload.msg,
-          };
+    case GET_PATIENTS:
+      return {
+        ...state,
+        patients: payload.users,
+        msg: payload.msg,
+      };
+    case GET_RDVS:
+      return {
+        ...state,
+        rdvss: payload.rdvs,
+        msg: payload.msg,
+      };
+      case FETCH_USER_SUCCESS:
+        return { ...state, user: payload, error: null };
+      case FETCH_USER_FAILURE:
+        return { ...state, user: {}, error: payload };
+      case UPDATE_USER_SUCCESS:
+        return { ...state, user: payload, error: null };
+      case UPDATE_USER_FAILURE:
+        return { ...state, error: payload };
     default:
       return state;
   }
