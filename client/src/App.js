@@ -16,11 +16,13 @@ import VideoList from "./components/pages/videoList";
 import HomeDashboard from "./pages/DashboardAdmin/Home"
 import NutritionnisteHome from "./pages/DashboardAdmin/NutritionisteHome";
 import EditModal from "./components/pages/EditModal";
+import Profil from "./components/pages/Profil";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAuthUser());
   }, []);
+
   return (
     <div className="App">
       <Routes>
@@ -40,6 +42,7 @@ function App() {
           <Route path="/Nutritionniste-dash/video-list" element={<VideoList/>} />
           <Route path="/Nutritionniste-dash/Calendrier" element={<HomeDashboard/>}/> 
           <Route path="/Nutritionniste-dash/EditPatient/:id" element={<EditModal />} />
+          <Route path="/Nutritionniste-dash/Profil" element={<Profil />} />
         </Route>
         <Route path="/patient-dash" element={<Patient />} />
         <Route path="/secretaire-dash" element={<Secretaire />} />

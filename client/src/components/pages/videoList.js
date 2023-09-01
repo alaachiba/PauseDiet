@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import YouTube from "react-youtube";
+import { Container, Typography, Grid } from "@mui/material";
 
 const VideoList = () => {
   const [videos, setVideos] = useState([]);
@@ -17,25 +19,22 @@ const VideoList = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Video List</h2>
-      <ul>
+    <Container maxWidth="lg">
+      <Typography variant="h4" component="h2" align="center" gutterBottom>
+        Video List
+      </Typography>
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
         {videos.map((video) => (
-          <li key={video._id}>
-            <h3>{video.title}</h3>
-            <p>{video.description}</p>
-            <iframe
-              width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${video.videoId}`}
-              title={video.title}
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
-          </li>
+          <Grid item xs={12} key={video._id}>
+            <Typography variant="h5" component="h3">
+              {video.title}
+            </Typography>
+            <YouTube videoId={video.videoId} />
+            <Typography variant="body2">{video.description}</Typography>
+          </Grid>
         ))}
-      </ul>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 

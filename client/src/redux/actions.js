@@ -152,7 +152,7 @@ export const fetchUser = (userId) => async (dispatch) => {
 // Action to update a user by ID
 export const updateUser = (userId, userData) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/users/${userId}`, userData);
+    const response = await axios.put(`/userAuth/users/${userId}`, userData);
     dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: UPDATE_USER_FAILURE, payload: error });

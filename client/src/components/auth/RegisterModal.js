@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/actions";
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import ImageLogin from '../../Login1.jpg';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from "@mui/material/CssBaseline";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import InputLabel from "@mui/material/InputLabel"; // Import InputLabel
+import Select from "@mui/material/Select"; // Import Select
+import MenuItem from "@mui/material/MenuItem"; // Import MenuItem
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterModal = () => {
-  const [modal, setModal] = useState(false);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,21 +28,13 @@ const RegisterModal = () => {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("nutritionniste");
   const [uploading, setUploading] = useState(false);
-  const [image, setImage] = useState("")
-  console.log(role,'ttttttttttttttttttttt')
-
-  const toggle = () => {
-    setModal(!modal);
-  };
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const registerr = () => {
-    const newUser = { name, lastName, email, password, phone, role,image };
-    dispatch(registerUser(newUser,navigate));
-    toggle();
-    
+    const newUser = { name, lastName, email, password, phone, role, image };
+    dispatch(registerUser(newUser, navigate));
   };
 
   const uploadProfileImage = (e) => {
@@ -57,111 +57,135 @@ const RegisterModal = () => {
         setUploading(false);
       });
   };
+
   return (
-    <div style={{ padding: " 50PX 300px" }}>
-      
-          <form>
-            <Stack spacing={2}> 
-             <img src={ImageLogin} alt="Nothing" sx={{ width : "50%"}}/>
-               <TextField
-                          
-                          label="name"
-                          name="name"
-                          type="text"
-                          variant="standard"
-                          onChange={(e) => setName(e.target.value)}
-                        />
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Paper elevation={3} sx={{ padding: 4, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Register
+        </Typography>
+        <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
               <TextField
-                          
-                          label="Last Name"
-                          name="lastName"
-                          type="text"
-                          variant="standard"
-                          onChange={(e) => setLastName(e.target.value)}
-                        />
+                autoComplete="name"
+                name="name"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                autoFocus
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
-                          
-                          label="Email"
-                          name="email"
-                          type="email"
-                          variant="standard"
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
+                autoComplete="lastName"
+                name="lastName"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <TextField
-                        id="standard-password-input"
-                        label="Password"
-                        type="password"
-                        name="password"
-                        autoComplete="current-password"
-                        variant="standard"
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                      <TextField
-                          
-                          label="Phone"
-                          name="Phone"
-                          type="Phone"
-                          variant="standard"
-                          definitions={{
-                            '#': /[1-9]/,
-                          }}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-              <InputLabel id="demo-simple-select-helper-label">Rôle</InputLabel>
+                autoComplete="email"
+                name="email"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="new-password"
+                name="password"
+                required
+                fullWidth
+                type="password"
+                id="password"
+                label="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="phone"
+                name="phone"
+                required
+                fullWidth
+                id="phone"
+                label="Phone Number"
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel id="role-label">Role</InputLabel>
               <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                
-                label="Role"
+                labelId="role-label"
+                id="role"
+                fullWidth
+                value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 <MenuItem value="nutritionniste">Nutritionniste</MenuItem>
                 <MenuItem value="secretaire">Secretaire</MenuItem>
                 <MenuItem value="patient">Patient</MenuItem>
               </Select>
-
-           
-            
+            </Grid>
+            <Grid item xs={12}>
               <>
-                  {image?  (
-                    <img
-                      src={image}
-                      width="100%"
-                      style={{ margin: "8px 0" }}
-                      height="150px"
-                      alt="product"
-                    />
-                  ) : (
-                    <div style={{ margin: "8px 0" }}>
-                      {!uploading ? "Upload Image For Product" : "Loading ..."}
-                    </div>
-                  )}
-                  <div
-                  >
-                    Select File
-                    <input
-                      accept="image/*"
-                      type="file"
-
-                      onChange={uploadProfileImage}
-                    />
+                {image ? (
+                  <img
+                    src={image}
+                    width="100%"
+                    style={{ margin: "8px 0" }}
+                    height="150px"
+                    alt="product"
+                  />
+                ) : (
+                  <div style={{ margin: "8px 0" }}>
+                    {!uploading ? "Upload Image For Profile" : "Loading ..."}
                   </div>
-                </>
-      
-              <Button
-                
-                sx={{ marginTop: "2rem" }}
-                onClick={registerr}
-              >
-                Register
-              </Button>
-            </Stack>
-          </form>
-        
-    </div>
+                )}
+                <div>
+                  Select File
+                  <input
+                    accept="image/*"
+                    type="file"
+                    onChange={uploadProfileImage}
+                  />
+                </div>
+              </>
+            </Grid>
+          </Grid>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={registerr}
+          >
+            Register
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/login" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRdv } from "../../redux/ReduxRdv/actions";
-import { Form, FormGroup } from "reactstrap";
+import { Form } from "reactstrap";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -11,9 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import moment from "moment";
-import { useEffect } from "react";
-import { getpatients } from "../../redux/actions";
 import Button from '@mui/material/Button';
+import { getpatients } from "../../redux/actions";
 
 function AddRdv() {
   useEffect(() => {
@@ -21,16 +20,14 @@ function AddRdv() {
   }, []);
 
   const patients = useSelector((state) => state.patients);
+  const [selectedPatient, setSelectedPatient] = useState("");
+  
   const [Rdv, setRdv] = useState({
     DateDebut: "",
     Type: "",
     UserName: "",
     IdUser: "",
   });
-
-  const [dateRdv, setDateRdv] = useState(new Date());
-  const [typeRdv, setTypeRdv] = useState("");
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   useEffect(() => {
     console.log(patients);
@@ -52,7 +49,7 @@ function AddRdv() {
     <div style={{ padding: "0 15px" }}>
       <h2>Prendre un rendez-vous</h2>
       <Form>
-        <FormGroup>
+        <div style={{ marginBottom: "10px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["MobileDateTimePicker"]}>
               <DemoItem label="Date rendez-vous :">
@@ -60,7 +57,9 @@ function AddRdv() {
               </DemoItem>
             </DemoContainer>
           </LocalizationProvider>
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <FormControl sx={{ minWidth: 300 }}>
             <InputLabel id="demo-simple-select-helper-label">
               Type du rendez-vous
             </InputLabel>
@@ -78,39 +77,39 @@ function AddRdv() {
               <MenuItem value="Consultation">Consultation</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+        <FormControl sx={{ m: 1, minWidth: 300 }}>
             <InputLabel id="demo-simple-select-helper-label">
               Nom patient
             </InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
-              label="Type du rendez-vous"
-              onChange={(e) =>
-                setRdv({
-                  ...Rdv,
-                  IdUser: e.target.value._id,
-                  UserName: e.target.value.name,
-                })
-              }
-              value={Rdv.UserName}
+              label="Nom patient"
+              onChange={(e) => {
+                const selectedId = e.target.value;
+                setSelectedPatient(selectedId); // Track the selected patient ID
+                setRdv({ ...Rdv, IdUser: selectedId });
+              }}
+              value={selectedPatient} // Use the selectedPatient state
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               {patients &&
                 patients.map((patient) => (
-                  <MenuItem key={patient._id} value={patient}>
-                    {patient.name}
+                  <MenuItem key={patient._id} value={patient._id}>
+                    {patient.name}  {patient.lastName}
                   </MenuItem>
                 ))}
             </Select>
           </FormControl>
-        </FormGroup>
-
+        </div>
         <Button
-          color="primary" style={{backgroundColour: "#03C04A"}}
-          block
+          color="primary"
+          style={{ backgroundColour: "#03C04A" }}
+          fullWidth // Make the button full width
           onClick={takeRdv}
         >
           Take Rdv

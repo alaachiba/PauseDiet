@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { fetchUser, updateUser } from "../../redux/actions";
-import { useParams } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Paper,
+} from "@mui/material";
 
 const EditModal = () => {
   const { id } = useParams(); // Get the 'id' from the URL
@@ -17,7 +25,7 @@ const EditModal = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
     setUserData(user);
   }, [user]);
 
@@ -31,22 +39,59 @@ const EditModal = () => {
   };
 
   return (
-    <div>
-      <h1>Edit User</h1>
-      {error && <p>Error: {error.message}</p>}
-      <form>
-        <input
-          type="text"
-          name="name"
-          value={userData.name || ""}
-          onChange={handleInputChange}
-        />
-        {/* Add more input fields for other user properties */}
-        <button type="button" onClick={handleSubmit}>
-          Update User
-        </button>
-      </form>
-    </div>
+    <Container maxWidth="md">
+      <Paper elevation={3} style={{ padding: "16px" }}>
+        <Typography variant="h4" gutterBottom>
+          Edit User
+        </Typography>
+        {error && <p>Error: {error.message}</p>}
+        <form>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              label="First Name"
+              name="name"
+              value={userData.name || ""}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              label="Last Name"
+              name="lastName"
+              value={userData.lastName || ""}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              label="Phone"
+              name="phone"
+              value={userData.phone || ""}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              value={userData.email || ""}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Update User
+          </Button>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 

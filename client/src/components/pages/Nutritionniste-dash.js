@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Button, Spinner } from "reactstrap";
+import { Spinner } from "reactstrap";
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -19,7 +19,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -27,6 +26,7 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import  {logout} from "../../redux/actions"
+import Person2Icon from '@mui/icons-material/Person2';
 
 const drawerWidth = 240;
 
@@ -86,7 +86,7 @@ function Nutritionnistedash() {
   
   const logoutt=()=>{
     dispatch(logout())
-    navigate("/login")
+    navigate("/")
   }
 
   if (!user) {
@@ -155,6 +155,14 @@ function Nutritionnistedash() {
                   <HomeIcon />
                 </ListItemIcon>
                 <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem onClick={() => {navigate('/Profil')}}>
+              <ListItemButton>
+                <ListItemIcon>
+                <Person2Icon/>
+                </ListItemIcon>
+                <ListItemText primary="Profil" />
               </ListItemButton>
             </ListItem>
             <ListItem  onClick={() => {navigate('/Nutritionniste-dash')}}>
