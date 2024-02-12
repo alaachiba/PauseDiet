@@ -8,7 +8,8 @@ import {
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-  UPDATE_USER_SUCCESS
+  UPDATE_USER_SUCCESS,
+  SET_USER_IMAGE,
 } from "./actionTypes";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   msg: null,
   rdvss: [],
   error: null,
+  image: null,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -60,14 +62,20 @@ const authReducer = (state = initialState, { type, payload }) => {
         rdvss: payload.rdvs,
         msg: payload.msg,
       };
-      case FETCH_USER_SUCCESS:
-        return { ...state, user: payload, error: null };
-      case FETCH_USER_FAILURE:
-        return { ...state, user: {}, error: payload };
-      case UPDATE_USER_SUCCESS:
-        return { ...state, user: payload, error: null };
-      case UPDATE_USER_FAILURE:
-        return { ...state, error: payload };
+    case FETCH_USER_SUCCESS:
+      return { ...state, user: payload, error: null };
+    case FETCH_USER_FAILURE:
+      return { ...state, user: null, error: payload };
+    case UPDATE_USER_SUCCESS:
+      return { ...state, user: payload, error: null };
+    case UPDATE_USER_FAILURE:
+      return { ...state, error: payload };
+    case SET_USER_IMAGE:
+      // Update the state with the received image URL
+      return {
+        ...state,
+        image: payload,
+      };
     default:
       return state;
   }

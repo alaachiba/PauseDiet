@@ -8,7 +8,8 @@ import {
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-  UPDATE_USER_SUCCESS
+  UPDATE_USER_SUCCESS,
+  SET_USER_IMAGE
 } from "./actionTypes";
 import axios from "axios";
 
@@ -168,5 +169,15 @@ export const getRdvs=()=> async (dispatch)=>{
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const fetchUserImage = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`/uploads/images/${userId}`);
+    const imageURL = response.data.imageURL;
+    dispatch({ type: SET_USER_IMAGE, payload: imageURL });
+  } catch (error) {
+    console.error('Error fetching user image:', error);
   }
 };

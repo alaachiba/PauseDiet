@@ -157,7 +157,7 @@ function Nutritionnistedash() {
                 <ListItemText primary="Home" />
               </ListItemButton>
             </ListItem>
-            <ListItem onClick={() => {navigate('/Profil')}}>
+            <ListItem onClick={() => {navigate('/Nutritionniste-dash/Profil')}}>
               <ListItemButton>
                 <ListItemIcon>
                 <Person2Icon/>
