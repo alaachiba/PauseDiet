@@ -30,7 +30,7 @@ function Profil() {
     }
   }, [dispatch, user._id]); // Add dispatch and user._id as dependencies
 
-  const fullImagePath = `${process.env.REACT_APP_BACKEND_URL}/${user.image}`;
+  const fullImagePath = `${process.env.REACT_APP_BACKEND_URL}${user.image}`;
   console.log("path:", fullImagePath)
 
   return (

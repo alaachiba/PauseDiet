@@ -17,6 +17,8 @@ import Select from "@mui/material/Select"; // Import Select
 import MenuItem from "@mui/material/MenuItem"; // Import MenuItem
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
 
 const RegisterModal = () => {
   const [name, setName] = useState("");
@@ -41,7 +43,7 @@ const RegisterModal = () => {
     bodyFormData.append("image", file);
     setUploading(true);
     axios
-      .post("/api/uploads", bodyFormData, {
+      .post("/uploads", bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -56,10 +58,30 @@ const RegisterModal = () => {
       });
   };
 
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Paper elevation={3} sx={{ padding: 4, display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -143,7 +165,7 @@ const RegisterModal = () => {
               <>
                 {image ? (
                   <img
-                    src={image}
+                    src={process.env.REACT_APP_BACKEND_URL+image}
                     width="100%"
                     style={{ margin: "8px 0" }}
                     height="150px"
@@ -154,14 +176,20 @@ const RegisterModal = () => {
                     {!uploading ? "Upload Image For Profile" : "Loading ..."}
                   </div>
                 )}
-                <div>
-                  Select File
-                  <input
-                    accept="image/*"
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload files
+                  <VisuallyHiddenInput
                     type="file"
                     onChange={uploadProfileImage}
+                    accept="image/*"
                   />
-                </div>
+                </Button>
               </>
             </Grid>
           </Grid>

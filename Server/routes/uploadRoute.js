@@ -19,10 +19,14 @@ const upload = multer({ storage });
 
 
 router.post("/", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
+  try {
+    if (!req.file) {
+      return res.status(400).send("No file uploaded.");
+    }
+    res.send(`/uploads/${req.file.filename}`);
+  } catch (error) {
+    console.log(error)
   }
-  res.send(`/uploads/${req.file.filename}`);
 });
 
 router.get("/images/:userId", async (req, res) => {
@@ -33,7 +37,7 @@ router.get("/images/:userId", async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-
+    console.log(user.image)
     if (!user.image) {
       return res.status(404).send("User does not have an image");
     }
